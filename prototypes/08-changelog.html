@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHANGELOG: Aymene Bourafai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap">
+  <style>
+    :root { --paper: #f7f8f6; --ink: #10233a; --teal: #0f5c6e; --muted: #5d6b76; --line: #d6dcdf; }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); }
+    body { max-width: 46rem; margin: 0 auto; padding: clamp(2rem, 8vh, 6rem) 1.25rem 7rem; font: 400 1.0625rem/1.65 "Literata", Georgia, serif; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; letter-spacing: -.02em; }
+    .lede { margin: .5rem 0 3rem; color: var(--muted); }
+    section { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+    h2 { margin: 0; font-size: 1.0625rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    h2 small { display: block; font-weight: 400; color: var(--muted); }
+    h3 { margin: 0 0 .25rem; font-size: 1.0625rem; font-weight: 600; }
+    ul { margin: 0; padding-left: 1.1rem; }
+    .tag { color: var(--teal); font-weight: 600; }
+    a { color: var(--teal); text-underline-offset: .2em; }
+    button.v01 { all: unset; cursor: pointer; text-decoration: underline dotted; text-underline-offset: .25em; }
+    button.v01:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    footer { margin-top: 2rem; color: var(--muted); font-size: .9375rem; }
+    @media (max-width: 36rem) { section { grid-template-columns: 1fr; gap: .5rem; } }
+
+    /* Easter egg: version 0.1 renders the page the way a 2004 personal site would. */
+    body.retro { max-width: none; background: #000080 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext x='8' y='28' font-size='20'%3E%E2%AD%90%3C/text%3E%3C/svg%3E"); color: #ffff00; font-family: "Comic Sans MS", "Comic Sans", cursive; }
+    body.retro h1 { color: #ff00ff; text-align: center; font-weight: 700; text-shadow: 3px 3px #00ffff; }
+    body.retro section { border-top: 3px ridge #c0c0c0; background: #000; }
+    body.retro a, body.retro .tag { color: #00ff00; }
+    #retro-banner { display: none; margin: 0 0 2rem; padding: .5rem; background: #c0c0c0; color: #000; border: 3px outset #fff; text-align: center; font-weight: 700; }
+    body.retro #retro-banner { display: block; }
+  </style>
+</head>
+<body>
+  <p id="retro-banner">UNDER CONSTRUCTION. You are visitor #000042. Click v0.1 again to go back to the future.</p>
+  <h1>Aymene Bourafai</h1>
+  <p class="lede">Product engineer, frontend-focused. Release notes of a career, newest first.</p>
+
+  <section>
+    <h2>Unreleased</h2>
+    <div><ul><li><span class="tag">Added</span> a <a href="#">blog</a> about developers and AI agents working together.</li></ul></div>
+  </section>
+  <section>
+    <h2>v4.0 <small>2020 to now</small></h2>
+    <div>
+      <h3>Web developer, Humanoid</h3>
+      <ul>
+        <li><span class="tag">Changed</span> legacy WordPress themes to a React SSR front end with a shared design system.</li>
+        <li><span class="tag">Added</span> a developer and AI agent collaboration model.</li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <h2>v3.0 <small>2017 to 2019</small></h2>
+    <div><h3>Web developer (work-study), BE API</h3><ul><li><span class="tag">Added</span> WordPress site factories and a master's degree (MIAGE).</li></ul></div>
+  </section>
+  <section>
+    <h2>v2.0 <small>2012 to 2016</small></h2>
+    <div><h3>Freelance web developer and designer, Algeria</h3><ul><li><span class="tag">Added</span> teaching HTML, CSS, JavaScript, PHP and MySQL to adult learners.</li></ul></div>
+  </section>
+  <section>
+    <h2><button class="v01" type="button">v0.1</button> <small>the beginning</small></h2>
+    <div><h3>Graphic designer</h3><ul><li><span class="tag">Initial release.</span> Click v0.1 to see what websites looked like back then.</li></ul></div>
+  </section>
+
+  <footer><a href="https://github.com/bourafai">GitHub</a> · <a href="https://www.linkedin.com/in/bourafai">LinkedIn</a></footer>
+  <script>
+    document.querySelector('.v01').addEventListener('click', () => document.body.classList.toggle('retro'));
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

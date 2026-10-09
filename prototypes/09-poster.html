@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aymene Bourafai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&display=swap">
+  <style>
+    :root { --paper: #eceeea; --ink: #10233a; --teal: #0f5c6e; --cyan: #5fd4e2; }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); }
+    body { margin: 0; min-height: 100svh; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr); gap: 1rem; padding: clamp(1rem, 3vw, 2.5rem); font: 500 1rem/1.4 "Schibsted Grotesk", system-ui, sans-serif; }
+    body > * { margin: 0; }
+    .name { grid-column: 1; grid-row: 1 / 7; writing-mode: vertical-rl; rotate: 180deg; font-size: clamp(3rem, 10vh, 7.5rem); font-weight: 900; line-height: .85; letter-spacing: -.03em; view-transition-name: name; }
+    .disc { grid-column: 3 / 6; grid-row: 1 / 4; align-self: center; justify-self: center; width: min(100%, 22rem); aspect-ratio: 1; border-radius: 50%; background: var(--teal); view-transition-name: disc; }
+    .bar { grid-column: 2 / 7; grid-row: 4; align-self: start; height: 1rem; background: var(--ink); view-transition-name: bar; }
+    .role { grid-column: 2 / 4; grid-row: 5; font-size: clamp(1.25rem, 2.5vw, 2rem); font-weight: 800; line-height: 1.05; view-transition-name: role; }
+    .about { grid-column: 4 / 6; grid-row: 5 / 7; max-width: 30ch; view-transition-name: about; }
+    nav { grid-column: 6; grid-row: 5 / 7; display: flex; flex-direction: column; gap: .25rem; view-transition-name: links; }
+    nav a { color: inherit; font-weight: 800; text-decoration: none; border-bottom: 3px solid var(--teal); align-self: start; }
+    nav a:hover, nav a:focus-visible { background: var(--cyan); outline: none; }
+    .hint { grid-column: 2 / 4; grid-row: 6; align-self: end; color: var(--teal); padding-bottom: 3rem; view-transition-name: hint; }
+    ::view-transition-group(*) { animation-duration: .7s; animation-timing-function: cubic-bezier(.2, .7, 0, 1); }
+    @media (max-width: 48rem) {
+      body { grid-template-columns: auto 1fr; grid-template-rows: auto; }
+      .name { grid-column: 1; grid-row: 1 / 7; font-size: 3.5rem; }
+      .disc, .bar, .role, .about, nav, .hint { grid-column: 2 !important; grid-row: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="name">Aymene Bourafai</h1>
+  <div class="disc" aria-hidden="true"></div>
+  <div class="bar" aria-hidden="true"></div>
+  <p class="role">Product engineer, frontend-focused</p>
+  <p class="about">Graphic designer turned developer. I now design how developers and AI agents work together.</p>
+  <nav aria-label="Elsewhere">
+    <a href="#">Writing</a>
+    <a href="https://github.com/bourafai">GitHub</a>
+    <a href="https://www.linkedin.com/in/bourafai">LinkedIn</a>
+  </nav>
+  <p class="hint">Press space to recompose the poster.</p>
+  <script>
+    // Easter egg: space recomposes the poster on the 6x6 grid, animated by the View Transitions API.
+    const parts = ['.disc', '.bar', '.role', '.about'].map((s) => document.querySelector(s));
+    const rand = (max) => 2 + Math.floor(Math.random() * max);
+    function recompose() {
+      for (const el of parts) {
+        const col = rand(4), row = 1 + Math.floor(Math.random() * 5);
+        el.style.gridColumn = `${col} / ${Math.min(7, col + 1 + Math.floor(Math.random() * 3))}`;
+        el.style.gridRow = `${row} / ${Math.min(7, row + 1 + Math.floor(Math.random() * 2))}`;
+      }
+    }
+    addEventListener('keydown', (e) => {
+      if (e.code !== 'Space' || innerWidth < 768) return;
+      e.preventDefault();
+      document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? document.startViewTransition(recompose)
+        : recompose();
+    });
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

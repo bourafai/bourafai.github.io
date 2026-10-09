@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aymene@bourafai ~</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+  <style>
+    :root { --ground: #f1f3f2; --ink: #10233a; --teal: #0f5c6e; --muted: #5d6b76; --hot: #c2185b; }
+    * { box-sizing: border-box; }
+    html { background: var(--ground); color: var(--ink); }
+    body { margin: 0; padding: clamp(1rem, 4vw, 3rem); font: 400 15px/1.7 "Martian Mono", ui-monospace, monospace; font-stretch: 87.5%; }
+    main { max-width: 76ch; }
+    h1 { font: inherit; font-weight: 700; font-stretch: 112.5%; font-size: clamp(1.5rem, 4vw, 2.25rem); margin: 0 0 2rem; }
+    .line { white-space: pre-wrap; margin: 0; }
+    .prompt { color: var(--teal); }
+    .muted { color: var(--muted); }
+    .hot { color: var(--hot); }
+    a { color: var(--ink); text-decoration-color: var(--teal); text-underline-offset: .25em; }
+    form { display: flex; gap: 1ch; }
+    input { flex: 1; border: 0; background: none; font: inherit; color: inherit; caret-color: var(--hot); outline: none; padding: 0; }
+    form:focus-within .prompt { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>aymene bourafai</h1>
+    <div id="out" role="log" aria-live="polite"></div>
+    <form>
+      <label class="prompt" for="cmd">~ $</label>
+      <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+    </form>
+    <p class="muted">type <b>help</b>. there is a sudo joke in here somewhere.</p>
+  </main>
+  <script>
+    const out = document.getElementById('out');
+    const input = document.getElementById('cmd');
+    const POSTS = {
+      'agents-are-teammates.md': 'Designing how developers and AI agents work together. (draft)',
+      'from-graphic-design-to-code.md': 'What ten years of type and layout taught my frontend work. (draft)',
+    };
+    const COMMANDS = {
+      help: () => 'about  ls  cat <file>  links  clear',
+      about: () => 'Product engineer, frontend-focused. 10+ years building for the web.\nGraphic designer turned developer. Now designing how developers and AI agents work together.',
+      ls: () => Object.keys(POSTS).join('\n'),
+      cat: (file) => POSTS[file] ?? `cat: ${file || ''}: no such file`,
+      links: () => '<a href="https://github.com/bourafai">github.com/bourafai</a>\n<a href="https://www.linkedin.com/in/bourafai">linkedin.com/in/bourafai</a>',
+      clear: () => { out.innerHTML = ''; return null; },
+      // Easter eggs
+      sudo: () => '<span class="hot">aymene is not in the sudoers file. This incident will be reported to the agents.</span>',
+      coffee: () => '<span class="hot">  ( (\n   ) )\n ........\n |      |]\n \\      /\n  `----\'   brewing. come back in 4 minutes.</span>',
+      rm: () => '<span class="hot">nice try. the agents already backed everything up.</span>',
+      exit: () => '<span class="hot">there is no exit. only ls.</span>',
+    };
+    const print = (html, cls = '') => {
+      const p = document.createElement('p');
+      p.className = `line ${cls}`;
+      p.innerHTML = html;
+      out.append(p);
+    };
+    const run = (raw) => {
+      const [name, ...args] = raw.trim().split(/\s+/);
+      print(`<span class="prompt">~ $</span> ${raw.replace(/</g, '&lt;')}`);
+      if (!name) return;
+      const result = COMMANDS[name] ? COMMANDS[name](args.join(' ')) : `${name.replace(/</g, '&lt;')}: command not found. try help`;
+      if (result) print(result);
+      scrollTo(0, document.body.scrollHeight);
+    };
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      run(input.value);
+      input.value = '';
+    });
+    run('about');
+    run('ls');
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

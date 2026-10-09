@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aymene Bourafai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300..700&family=Source+Serif+4:opsz,wght@8..60,400..600&family=Martian+Mono:wdth,wght@75..112.5,400..600&display=swap">
+  <style>
+    :root { --navy: #10233a; --fog: #e6ecef; --teal: #0f5c6e; --cyan: #5fd4e2; --muted: #5b6b78; --soft: #9fb1be; }
+    * { box-sizing: border-box; }
+    body { margin: 0; display: grid; grid-template-columns: minmax(20rem, 2fr) 3fr; min-height: 100svh; padding: 0; font: 400 1rem/1.5 "Sora", system-ui, sans-serif; color: var(--navy); }
+    aside { position: sticky; top: 0; height: 100svh; display: grid; grid-template-rows: auto 1fr auto; gap: 1.5rem; padding: clamp(1.5rem, 3vw, 3rem); background: var(--navy); color: var(--fog); }
+    aside h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 300; line-height: 1.05; letter-spacing: -.03em; }
+    aside header p { margin: .75rem 0 0; color: var(--soft); max-width: 32ch; }
+    .shell { display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; font: 400 13px/1.65 "Martian Mono", ui-monospace, monospace; font-stretch: 87.5%; }
+    #log { overflow-y: auto; scrollbar-width: none; mask-image: linear-gradient(transparent, #000 2.5rem); padding-top: 2.5rem; }
+    #log p { margin: 0 0 .6rem; white-space: pre-wrap; }
+    #log .you { color: var(--soft); }
+    #log b { color: var(--cyan); font-weight: 600; }
+    #log a, aside a { color: var(--fog); text-decoration-color: var(--cyan); text-underline-offset: .25em; }
+    .shell form { display: flex; gap: 1ch; padding-top: .6rem; border-top: 1px solid rgba(230, 236, 239, .2); }
+    .shell label { color: var(--cyan); }
+    .field { position: relative; flex: 1; min-width: 0; }
+    .shell input { position: relative; width: 100%; border: 0; background: none; padding: 0; font: inherit; color: inherit; caret-color: var(--cyan); outline: none; }
+    /* Ghost text: typed part invisible, completion in grey right after it. shortcut: no horizontal scroll sync, fine while lines stay short. */
+    .ghost { position: absolute; inset: 0; white-space: pre; overflow: hidden; pointer-events: none; color: #6f8494; }
+    .ghost span { color: transparent; }
+    .ghost kbd { margin-left: 1ch; padding: 0 .4ch; border: 1px solid #3c556b; border-radius: 3px; font: inherit; font-size: 11px; color: #6f8494; }
+    .shell input::placeholder { color: #6f8494; }
+    .hint { margin: 0; font-size: .8125rem; color: var(--soft); }
+    main { padding: clamp(1.5rem, 4vw, 3.5rem); padding-bottom: 6rem; }
+    article { max-width: 38rem; padding: 2rem 0; border-bottom: 1px solid #d5dde2; }
+    article:first-of-type { padding-top: 0; }
+    time { font-size: .875rem; color: var(--muted); }
+    article h2 { margin: .25rem 0 .5rem; font-size: 1.5rem; font-weight: 600; letter-spacing: -.01em; }
+    article h2 a { color: inherit; text-decoration: none; }
+    article h2 a:hover { color: var(--teal); }
+    article p { margin: 0; font: 400 1.125rem/1.65 "Source Serif 4", Georgia, serif; color: #2d3b47; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+    @media (max-width: 48rem) { body { grid-template-columns: 1fr; } aside { position: static; height: auto; min-height: 70svh; } }
+  </style>
+</head>
+<body>
+  <aside>
+    <header>
+      <h1>Aymene<br>Bourafai</h1>
+      <p>Product engineer, frontend-focused. I design how developers and AI agents work together.</p>
+    </header>
+    <div class="shell">
+      <div id="log" role="log" aria-live="polite"><p><b>agent ›</b> I built this site. Ask me about Aymene, or try a Linux command. Tab completes.</p></div>
+      <form>
+        <label for="q">~ $</label>
+        <div class="field">
+          <div class="ghost" aria-hidden="true"></div>
+          <input id="q" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type a command or a question · tab completes">
+        </div>
+      </form>
+    </div>
+    <p class="hint">Press D for the designer's grid. <a href="https://github.com/bourafai">GitHub</a> <a href="https://www.linkedin.com/in/bourafai">LinkedIn</a></p>
+  </aside>
+  <main>
+    <article>
+      <time datetime="2026-10">October 2026</time>
+      <h2><a href="#">Agents are teammates, not tools</a></h2>
+      <p>Placeholder excerpt. A short paragraph about how a team reads, reviews and trusts the work of AI agents.</p>
+    </article>
+    <article>
+      <time datetime="2026-09">September 2026</time>
+      <h2><a href="#">From graphic design to code</a></h2>
+      <p>Placeholder excerpt. What years of type, grids and print taught a frontend engineer.</p>
+    </article>
+    <article>
+      <time datetime="2026-08">August 2026</time>
+      <h2><a href="https://github.com/bourafai/rich-replies">rich-replies</a></h2>
+      <p>Placeholder excerpt. A Claude Code mod, open source on GitHub.</p>
+    </article>
+  </main>
+  <script src="eggs.js"></script>
+  <script>
+    Eggs.options.fall = 'main article';
+    const log = document.getElementById('log');
+    const input = document.getElementById('q');
+    const escape = (s) => s.replace(/[<&]/g, (c) => (c === '<' ? '&lt;' : '&amp;'));
+    const say = (html, cls = '') => {
+      const p = document.createElement('p');
+      p.className = cls;
+      p.innerHTML = html;
+      log.append(p);
+      log.scrollTop = log.scrollHeight;
+    };
+    Eggs.on('clear', () => { log.innerHTML = ''; });
+
+    // Autocomplete: fish-style ghost suggestion, Tab or ArrowRight at the end accepts it.
+    const ghost = document.querySelector('.ghost');
+    const showGhost = () => {
+      const s = Eggs.suggest(input.value);
+      ghost.innerHTML = s ? `<span>${escape(input.value)}</span>${escape(s.slice(input.value.length))}<kbd>tab</kbd>` : '';
+    };
+    input.addEventListener('input', showGhost);
+    // Shell history: ArrowUp and ArrowDown walk through past entries.
+    const history = [];
+    let cursor = 0;
+    input.addEventListener('keydown', (e) => {
+      const s = Eggs.suggest(input.value);
+      const atEnd = input.selectionStart === input.value.length;
+      if (s && (e.key === 'Tab' || (e.key === 'ArrowRight' && atEnd))) {
+        e.preventDefault();
+        input.value = s;
+        showGhost();
+      } else if (e.key === 'ArrowUp' && history.length) {
+        e.preventDefault();
+        cursor = Math.max(0, cursor - 1);
+        input.value = history[cursor];
+        showGhost();
+      } else if (e.key === 'ArrowDown' && history.length) {
+        e.preventDefault();
+        cursor = Math.min(history.length, cursor + 1);
+        input.value = history[cursor] ?? '';
+        showGhost();
+      }
+    });
+    document.querySelector('.shell form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!input.value.trim()) return;
+      say(`~ $ ${escape(input.value)}`, 'you');
+      const answer = Eggs.reply(input.value);
+      if (answer) say(`<b>agent ›</b> ${answer}`);
+      history.push(input.value);
+      cursor = history.length;
+      input.value = '';
+      showGhost();
+    });
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

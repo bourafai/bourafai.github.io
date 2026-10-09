@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aymene Bourafai, product engineer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Instrument+Sans:wght@400..600&display=swap">
+  <style>
+    :root { --ground: #e6ecef; --ink: #10233a; --teal: #0f5c6e; --muted: #46596a; --signal: #00a6b8; }
+    * { box-sizing: border-box; }
+    html { background: var(--ground); color: var(--ink); }
+    body {
+      margin: 0; min-height: 100svh; display: grid; grid-template-rows: 1fr auto;
+      padding: clamp(1.25rem, 5vw, 4.5rem);
+      font: 400 1.125rem/1.6 "Instrument Sans", system-ui, sans-serif;
+    }
+    main { align-self: end; }
+    h1 {
+      margin: 0 0 clamp(2rem, 6vh, 4rem); cursor: pointer; user-select: none;
+      font: 800 clamp(3.25rem, 13.5vw, 14rem)/0.86 "Anybody", system-ui, sans-serif;
+      font-stretch: 125%; letter-spacing: -0.02em; text-transform: uppercase;
+      animation: unfold 1.6s cubic-bezier(.2, .7, 0, 1) both;
+    }
+    h1 > span { display: block; }
+    h1 i { font-style: normal; transition: font-stretch .6s cubic-bezier(.2, .7, 0, 1), font-weight .6s; }
+    @keyframes unfold { from { font-stretch: 50%; font-weight: 200; opacity: 0; } 30% { opacity: 1; } }
+    .role { margin: 0 0 1rem; color: var(--teal); font-weight: 600; font-size: clamp(1.25rem, 2.2vw, 1.75rem); line-height: 1.2; }
+    .summary { max-width: 58ch; margin: 0; color: var(--muted); }
+    nav ul { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+    a { color: var(--ink); font-weight: 600; text-decoration-color: var(--teal); text-underline-offset: .3em; }
+    a:hover { text-decoration-thickness: 3px; }
+    :focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+    footer { margin-top: clamp(3rem, 10vh, 6rem); color: var(--muted); font-size: .875rem; }
+    footer p { margin: 0; }
+    @media (prefers-reduced-motion: reduce) { h1, h1 i { animation: none; transition: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 title="Click me"><span>Aymene</span><span>Bourafai</span></h1>
+    <p class="role">Product engineer, frontend-focused</p>
+    <p class="summary">Frontend-focused product engineer with 10+ years building for the web (React, TypeScript, PHP/WordPress), shipping for French tech and media sites with millions of monthly readers. Graphic designer turned developer: I work across product, UX and engineering, and now design how developers and AI agents work together.</p>
+    <nav aria-label="Elsewhere">
+      <ul>
+        <li><a href="#">Writing</a></li>
+        <li><a href="https://github.com/bourafai">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/bourafai">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </main>
+  <footer><p>Designed and coded by AI agents. Psst: click my name.</p></footer>
+  <script>
+    // Easter egg: each click gives every letter a random width and weight, the variable font morphs.
+    const h1 = document.querySelector('h1');
+    h1.querySelectorAll('span').forEach((line) => {
+      line.innerHTML = [...line.textContent].map((c) => `<i>${c}</i>`).join('');
+    });
+    let clicks = 0;
+    h1.addEventListener('click', () => {
+      clicks++;
+      h1.querySelectorAll('i').forEach((letter) => {
+        const reset = clicks % 5 === 0;
+        letter.style.fontStretch = reset ? '' : `${50 + Math.random() * 100}%`;
+        letter.style.fontWeight = reset ? '' : `${100 + Math.round(Math.random() * 8) * 100}`;
+      });
+    });
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

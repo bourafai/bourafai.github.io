@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aymene Bourafai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200..600&display=swap">
+  <style>
+    :root { --ground: #eef2f3; --ink: #10233a; --teal: #0f5c6e; --x: 50vw; --y: 50vh; }
+    * { box-sizing: border-box; }
+    html { background: var(--ground); color: var(--ink); }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: clamp(1.5rem, 6vw, 6rem); font-family: "Hanken Grotesk", system-ui, sans-serif; }
+    p { margin: 0; max-width: 22ch; font-size: clamp(2rem, 5.2vw, 5rem); font-weight: 250; line-height: 1.12; letter-spacing: -.025em; }
+    a { color: inherit; font-weight: 500; text-decoration: underline; text-decoration-thickness: .06em; text-decoration-color: var(--teal); text-underline-offset: .12em; }
+    a:hover { color: var(--teal); }
+    a:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
+    small { font-size: .4em; font-weight: 400; letter-spacing: 0; vertical-align: middle; color: var(--teal); }
+    /* Easter egg: lights off, a flashlight follows the pointer and finds a hidden note. */
+    #dark { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s;
+      background: radial-gradient(circle at var(--x) var(--y), transparent 0 110px, rgba(4, 10, 18, .985) 190px); }
+    #note { position: fixed; right: 8vw; bottom: 14vh; margin: 0; max-width: 20ch; font-size: 1.25rem; font-weight: 400; color: var(--teal); opacity: 0; }
+    body.off #dark, body.off #note { opacity: 1; }
+  </style>
+</head>
+<body>
+  <p>Hi, I'm Aymene, a product engineer who started as a graphic designer. These days I design how developers and AI agents work together, write about it on <a href="#">my blog</a>, share code on <a href="https://github.com/bourafai">GitHub</a> and keep the rest on <a href="https://www.linkedin.com/in/bourafai">LinkedIn</a>. <small>(press L to turn the lights off)</small></p>
+  <p id="note" aria-hidden="true">You found it. The agents do their best work at night too.</p>
+  <div id="dark" aria-hidden="true"></div>
+  <script>
+    addEventListener('pointermove', (e) => {
+      document.body.style.setProperty('--x', `${e.clientX}px`);
+      document.body.style.setProperty('--y', `${e.clientY}px`);
+    });
+    addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'l' && !e.metaKey && !e.ctrlKey) document.body.classList.toggle('off');
+    });
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

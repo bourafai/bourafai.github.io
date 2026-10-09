@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aymene Bourafai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300..700&display=swap">
+  <style>
+    :root { --ground: #f3f5f6; --ink: #10233a; --teal: #0f5c6e; --muted: #5d6b76; --line: #d8dfe3; }
+    * { box-sizing: border-box; }
+    html { background: var(--ground); color: var(--ink); }
+    body { max-width: 44rem; margin: 0 auto; padding: clamp(2rem, 10vh, 6rem) 1.25rem 8rem; font: 400 1.0625rem/1.6 "Onest", system-ui, sans-serif; }
+    h1 { margin: 0 0 3rem; font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 300; letter-spacing: -.035em; line-height: 1; }
+    #log { display: grid; gap: 1.25rem; }
+    .msg { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; }
+    .who { color: var(--muted); font-size: .875rem; padding-top: .2rem; }
+    .msg.agent .who { color: var(--teal); font-weight: 600; }
+    .msg p { margin: 0; white-space: pre-wrap; }
+    .msg.you p { color: var(--muted); }
+    a { color: var(--teal); text-underline-offset: .2em; }
+    form { margin-top: 2.5rem; display: flex; gap: .5rem; border-bottom: 2px solid var(--ink); }
+    input { flex: 1; min-width: 0; border: 0; background: none; padding: .6rem 0; font: inherit; color: inherit; outline: none; }
+    button { border: 0; background: none; font: inherit; font-weight: 600; color: var(--teal); cursor: pointer; }
+    .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .chips button { padding: .3rem .8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); font-weight: 400; font-size: .9375rem; }
+    .chips button:hover { border-color: var(--teal); }
+    :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    @media (max-width: 30rem) { .msg { grid-template-columns: 1fr; gap: 0; } }
+  </style>
+</head>
+<body>
+  <h1>Aymene Bourafai</h1>
+  <div id="log" role="log" aria-live="polite"></div>
+  <form>
+    <label class="sr" for="q" hidden>Ask a question</label>
+    <input id="q" autocomplete="off" placeholder="Ask about work, writing or links. Or ask for the secret.">
+    <button type="submit">Ask</button>
+  </form>
+  <div class="chips">
+    <button type="button">What does Aymene do?</button>
+    <button type="button">Where does Aymene write?</button>
+    <button type="button">Tell me the secret</button>
+  </div>
+  <script>
+    // Canned answers only: no model, no network. Keyword match, first hit wins.
+    const ANSWERS = [
+      [/secret|easter|egg/, 'You asked, so here it is: this site was designed and coded entirely by AI agents.\nAymene wrote the brief and the words, the agents did the rest.\nThe brief started with: "an ultra simple site, ultra modern and futuristic, made entirely by AI".'],
+      [/writ|blog|post|read/, 'On the <a href="#">blog</a>: developers, AI agents and the craft of frontend.'],
+      [/do|work|job|who/, 'Aymene is a product engineer, frontend-focused, with 10+ years building for the web.\nGraphic designer turned developer, now designing how developers and AI agents work together.'],
+      [/link|github|linkedin|code|contact/, '<a href="https://github.com/bourafai">GitHub</a> for code, <a href="https://www.linkedin.com/in/bourafai">LinkedIn</a> for the rest.'],
+      [/hello|hi|hey|bonjour/, 'Hello. Ask me what Aymene does, where to read the writing, or for the secret.'],
+    ];
+    const log = document.getElementById('log');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const say = (who, html) => {
+      const row = document.createElement('div');
+      row.className = `msg ${who === 'Agent' ? 'agent' : 'you'}`;
+      row.innerHTML = `<span class="who">${who}</span><p></p>`;
+      log.append(row);
+      const p = row.querySelector('p');
+      if (who !== 'Agent' || reduced) { p.innerHTML = html; return; }
+      // Typewriter on the plain text, then swap in the final HTML so links work.
+      const text = html.replace(/<[^>]+>/g, '');
+      let n = 0;
+      const tick = () => { p.textContent = text.slice(0, n += 2); n < text.length ? setTimeout(tick, 12) : (p.innerHTML = html); };
+      tick();
+    };
+    const ask = (q) => {
+      if (!q.trim()) return;
+      say('You', q.replace(/</g, '&lt;'));
+      const hit = ANSWERS.find(([re]) => re.test(q.toLowerCase()));
+      setTimeout(() => say('Agent', hit ? hit[1] : 'I only know three things: what Aymene does, where to read the writing, and the secret.'), 300);
+    };
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('q');
+      ask(input.value);
+      input.value = '';
+    });
+    document.querySelectorAll('.chips button').forEach((b) => b.addEventListener('click', () => ask(b.textContent)));
+    say('Agent', 'Hi. I am the agent that built this page. Ask me about Aymene.');
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>

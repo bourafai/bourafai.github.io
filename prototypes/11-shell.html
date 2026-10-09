@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aymene@bourafai ~</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+  <style>
+    :root { --ground: #f1f3f2; --ink: #10233a; --teal: #0f5c6e; --muted: #5d6b76; --hot: #c2185b; }
+    * { box-sizing: border-box; }
+    html { background: var(--ground); color: var(--ink); }
+    body { margin: 0; padding: clamp(1rem, 4vw, 3rem); padding-bottom: 6rem; font: 400 15px/1.7 "Martian Mono", ui-monospace, monospace; font-stretch: 87.5%; }
+    main { max-width: 80ch; }
+    h1 { margin: 0 0 .25rem; font: inherit; font-weight: 700; font-stretch: 112.5%; font-size: clamp(1.5rem, 4vw, 2.25rem); }
+    .muted { margin: 0 0 2rem; color: var(--muted); }
+    .line { margin: 0; white-space: pre-wrap; }
+    .line + .line.you { margin-top: .9rem; }
+    .prompt { color: var(--teal); }
+    .who { color: var(--hot); }
+    a { color: var(--ink); text-decoration-color: var(--teal); text-underline-offset: .25em; }
+    form { display: flex; gap: 1ch; margin-top: .9rem; }
+    input { flex: 1; min-width: 0; border: 0; background: none; padding: 0; font: inherit; color: inherit; caret-color: var(--hot); outline: none; }
+    form:focus-within .prompt { text-decoration: underline; }
+    .try { margin-top: 2.5rem; color: var(--muted); }
+    .try button { all: unset; cursor: pointer; color: var(--teal); text-decoration: underline; text-underline-offset: .25em; }
+    .try button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>aymene bourafai</h1>
+    <p class="muted">product engineer. this shell has an agent in it: talk in plain words.</p>
+    <div id="out" role="log" aria-live="polite"></div>
+    <form>
+      <label class="prompt" for="cmd">~ $</label>
+      <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+    </form>
+    <p class="try">try: <button>who are you?</button>  <button>show me your early designs</button>  <button>lights off</button>  <button>tell me the secret</button></p>
+  </main>
+  <script src="eggs.js"></script>
+  <script>
+    Eggs.options.fall = 'h1, .muted, #out > p, form, .try';
+    const out = document.getElementById('out');
+    const input = document.getElementById('cmd');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const escape = (s) => s.replace(/[<&]/g, (c) => (c === '<' ? '&lt;' : '&amp;'));
+    const line = (html, cls) => {
+      const p = document.createElement('p');
+      p.className = `line ${cls}`;
+      p.innerHTML = html;
+      out.append(p);
+      return p;
+    };
+    // Typewriter on the plain text, then swap in the final HTML so links work.
+    const type = (p, html) => {
+      const text = html.replace(/<[^>]+>/g, '');
+      if (reduced) { p.innerHTML = html; return; }
+      let n = 0;
+      const tick = () => { n += 3; p.textContent = text.slice(0, n); n < text.length ? setTimeout(tick, 10) : (p.innerHTML = html); };
+      tick();
+    };
+    const run = (raw) => {
+      line(`<span class="prompt">~ $</span> ${escape(raw)}`, 'you');
+      if (!raw.trim()) return;
+      const answer = Eggs.reply(raw);
+      if (answer) type(line('', 'agent'), `<span class="who">agent ›</span> ${answer}`);
+      scrollTo(0, document.body.scrollHeight);
+    };
+    Eggs.on('clear', () => { out.innerHTML = ''; });
+    document.querySelector('form').addEventListener('submit', (e) => { e.preventDefault(); run(input.value); input.value = ''; });
+    document.querySelectorAll('.try button').forEach((b) => b.addEventListener('click', () => { run(b.textContent); input.focus(); }));
+    run('whoami');
+  </script>
+  <script src="switcher.js"></script>
+</body>
+</html>
