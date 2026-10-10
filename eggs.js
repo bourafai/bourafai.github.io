@@ -148,7 +148,7 @@
 
   // First match wins. Each rule: [regex on lowercased input, reply (string or fn), optional action].
   const RULES = [
-    [/^(help|\?|commands)$/, 'Talk to me in plain words, or type a command:\nabout  ls  cat &lt;file&gt;  links  grid  early designs  gravity  lights off  clear\nAnd most Linux commands. Tab completes.'],
+    [/^(help|\?|commands)$/, 'Talk to me in plain words, or type a command:\nabout  ls  cat &lt;file&gt;  links  grid  early designs  gravity  lights off  clear\nAnd most Linux commands. Tab completes.\nOutside the prompt, press D for the designer\'s grid.'],
     [/secret|easter|egg/, 'The secret: this whole site was designed and coded by AI agents, from Aymene\'s brief and words.\nThere are six easter eggs. Try: grid, early designs, gravity, lights off. And open the browser console.'],
     // Linux commands: each one gets a joke instead of a real effect.
     [/nmap|^ssh\b|\/etc\/(passwd|shadow)|chmod\s+777|hack|^nc\b|metasploit|sqlmap|drop table/, 'Are you a hacker? OMG! 😱\nPlease be gentle, this is a static page. There is nothing behind it but HTML and a cookie.'],
