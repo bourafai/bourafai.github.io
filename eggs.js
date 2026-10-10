@@ -144,7 +144,7 @@
       ? `${esc(post.title)}  ${esc(post.date)}\n${esc(post.excerpt)}\n<a href="${esc(post.href)}">read it</a>`
       : `cat: ${esc(name)}: no such file. try ls`;
   };
-  const LINKS = '<a href="https://github.com/bourafai">github.com/bourafai</a>\n<a href="https://www.linkedin.com/in/bourafai">linkedin.com/in/bourafai</a>';
+  const LINKS = '<a href="https://github.com/bourafai">github.com/bourafai</a>\n<a href="https://www.linkedin.com/in/bourafai">linkedin.com/in/bourafai</a>\n<a href="https://x.com/bourafai">x.com/bourafai</a>';
 
   // First match wins. Each rule: [regex on lowercased input, reply (string or fn), optional action].
   const RULES = [
@@ -183,7 +183,7 @@
     [/coffee|☕/, '  ( (\n   ) )\n ........\n |      |]\n \\      /\n  `----\'   brewing. come back in 4 minutes.'],
     [/^rm\b/, 'nice try. the agents already backed everything up.'],
     [/^exit$/, 'there is no exit. only ls.'],
-    [/link|github|linkedin|contact|social/, LINKS],
+    [/link|github|linkedin|twitter|^x$|contact|social/, LINKS],
     [/about|who|what do|work|job|does|you do|whoami/, 'Aymene Bourafai. Product engineer, frontend-focused, 10+ years building for the web.\nGraphic designer turned developer, now designing how developers and AI agents work together.'],
     [/^(hi|hello|hey|bonjour|salut)\b/, 'Hello. Ask me who Aymene is, what to read, or for the secret.'],
   ];
